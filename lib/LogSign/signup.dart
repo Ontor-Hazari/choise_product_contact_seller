@@ -3,6 +3,13 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:choise_product_contact_seller/BackgroudMainPage/background.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../FireAuth.dart';
+import 'FireAuth.dart';
+
+
+
+
 
 class SignUp extends StatefulWidget {
 
@@ -12,6 +19,31 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+
+ var formkey = GlobalKey<FormState>();
+
+ var name = TextEditingController();
+ var email = TextEditingController();
+ var password = TextEditingController();
+
+ var s_name,s_email,s_password;
+
+ Future<void> dataSubmit()
+ async {
+    if(formkey.currentState!.validate())
+      {
+        formkey.currentState!.save();
+
+        User? user = await FireAuth.registerUsingEmailPassword(
+            name: this.s_name, email: this.s_email, password:this.s_password
+
+        );
+
+        print("Name : ${this.s_name} Email : ${this.s_email} Password : ${this.s_password}");
+      }
+ }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -19,59 +51,99 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
        body: BackGround(
 
-           child: Column(
-
+           child: ListView(
 
              children: [
-               SizedBox(
-                 height: 100,
-               )
-               ,
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              alignment: Alignment.centerLeft
-              ,
-              child:    Text(
-                "Sign Up",style: TextStyle(fontWeight: FontWeight.bold,  color: Color(0xFF2661FA),
-                  fontSize: 36),
-                textAlign: TextAlign.left,
-              ),
-            ),
-               SizedBox(height: size.height * 0.1,),
-               Container(
-                 alignment: Alignment.center,
-                 margin: EdgeInsets.symmetric(horizontal: 40),
-                 child: TextField(
-                   decoration: InputDecoration(
-                       labelText: "Name"
-                   ),
-                 ),
-               ),
+                  Padding(padding: EdgeInsets.all(20)
+                    ,
+                    child: Form(
+                      key: formkey
+                      ,
+                      child: Column(
+                              children: [
+                                 SizedBox(height: 100,)
+                                ,
 
-               SizedBox(height: size.height * 0.01),
+                                   TextFormField(
 
-               Container(
-                 alignment: Alignment.center,
-                 margin: EdgeInsets.symmetric(horizontal: 40),
-                 child: TextField(
-                   decoration: InputDecoration(
-                       labelText: "Email"
-                   ),
-                   obscureText: true,
-                 ),
-               ),
-               SizedBox(height: size.height * 0.01),
+                                     controller: name,
+                                     decoration: InputDecoration(
+                                       label: Text("Name")
+                                     ),
+                                     validator: (value)
+                                     {
+                                        if(value!.length == 0 || value.isEmpty)
+                                          {
+                                             return("Name Is requre");
+                                          }
+                                     },
+                                     onSaved: (value)
+                                     {
+                                          this.s_name = value;
+                                     },
+                                   ),
+                                TextFormField(
+                                  controller: email,
+                                  decoration: InputDecoration(
+                                      label: Text("Email")
+                                  ),
+                                  validator: (value)
+                                  {
+                                    if(value!.length == 0 || value.isEmpty)
+                                    {
+                                      return("Email Is requre");
+                                    }
+                                  },
+                                  onSaved: (value)
+                                  {
+                                        this.s_email = value;
+                                  },
+                                ),
+                                TextFormField(
+                                  controller: password,
+                                  decoration: InputDecoration(
+                                      label: Text("Password")
+                                  ),
+                                  validator: (value)
+                                  {
+                                    if(value!.length < 6 )
+                                    {
+                                      return("Password Is Small 6 digit");
+                                    }
+                                    else if(value.isEmpty)
+                                      {
+                                        return("Password Is requre");
+                                      }
+                                  },
+                                  onSaved: (value)
+                                  {
+                                        this.s_password = value;
+                                  },
+                                )
+                                ,
+                               Container(
+                                 margin: EdgeInsets.only(top: 10)
+                                 ,
+                                 child:  RaisedButton(
 
-               Container(
-                 alignment: Alignment.center,
-                 margin: EdgeInsets.symmetric(horizontal: 40),
-                 child: TextField(
-                   decoration: InputDecoration(
-                       labelText: "Password"
-                   ),
-                   obscureText: true,
-                 ),
-               ),
+
+                                   onPressed: (){
+
+                                     dataSubmit();
+
+                                 },
+                                   child: Text("Sign Up"),
+
+                                 ),
+                               )
+
+                              ],
+                      ) ,
+                    ),
+
+
+
+                  )
              ],
            ),
        ),

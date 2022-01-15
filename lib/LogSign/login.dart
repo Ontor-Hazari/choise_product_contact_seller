@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:choise_product_contact_seller/BackgroudMainPage/background.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatelessWidget {
+
+  final email = TextEditingController();
+  final password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,31 +32,42 @@ class Login extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               ),
+              SizedBox(height: 50,),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40),
+                child: TextFormField(
+                       controller: email,
 
-              SizedBox(height: size.height * 0.03),
-
-              Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.symmetric(horizontal: 40),
-                child: TextField(
                   decoration: InputDecoration(
-                      labelText: "Username"
+
+
+
+                      border: OutlineInputBorder(),
+
+                      labelText: "Email"
+
+
                   ),
                 ),
               ),
+              SizedBox(height: 20,),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40),
+                child: TextFormField(
+                    controller: password,
 
-              SizedBox(height: size.height * 0.03),
 
-              Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.symmetric(horizontal: 40),
-                child: TextField(
                   decoration: InputDecoration(
+
+                      border: OutlineInputBorder(),
+
                       labelText: "Password"
+
+
                   ),
-                  obscureText: true,
                 ),
               ),
+              SizedBox(height: 20,),
 
               Container(
                 alignment: Alignment.centerRight,
@@ -67,38 +83,77 @@ class Login extends StatelessWidget {
 
               SizedBox(height: size.height * 0.05),
 
-              Container(
-                alignment: Alignment.centerRight,
-                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                child: RaisedButton(
-                  onPressed: () {},
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
-                  textColor: Colors.white,
-                  padding: const EdgeInsets.all(0),
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 50.0,
-                    width: size.width * 0.5,
-                    decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.circular(80.0),
-                        gradient: new LinearGradient(
-                            colors: [
-                              Color.fromARGB(255, 255, 136, 34),
-                              Color.fromARGB(255, 255, 177, 41)
-                            ]
-                        )
-                    ),
-                    padding: const EdgeInsets.all(0),
-                    child: Text(
-                      "LOGIN",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              RaisedButton(onPressed: () async {
+
+                try {
+                  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: email.text,
+                      password: password.text
+                  );
+
+
+                  if(userCredential != null)
+                  {
+                    Fluttertoast.showToast(
+                        msg: "Working",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0
+                    );
+                  }
+
+
+
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'user-not-found') {
+                    print('No user found for that email.');
+                    Fluttertoast.showToast(
+                        msg: "'user-not-found'",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0
+                    );
+
+                  } else if (e.code == 'wrong-password') {
+                    print('Wrong password provided for that user.');
+                    Fluttertoast.showToast(
+                        msg: "Wrong password provided for that user.",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0
+                    );
+                  }
+                  else if(e.email != email)
+                    {
+                      print('Wrong password provided for that user.');
+                      Fluttertoast.showToast(
+                          msg: "Wrong password provided for that user.",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0
+                      );
+                    }
+                }
+
+
+              },
+                child: Text("LogIN",style: TextStyle(fontWeight: FontWeight.bold),),
+                color: Colors.red,
+                textColor: Colors.white,
+
+              )
 
 
             ],
@@ -108,4 +163,6 @@ class Login extends StatelessWidget {
 
     );
   }
+
+
 }
