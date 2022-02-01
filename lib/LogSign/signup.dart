@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:choise_product_contact_seller/BackgroudMainPage/background.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../FireAuth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:choise_product_contact_seller/Admin/adminDatasubmit.dart';
 import 'FireAuth.dart';
 
 
@@ -39,7 +41,36 @@ class _SignUpState extends State<SignUp> {
 
         );
 
-        print("Name : ${this.s_name} Email : ${this.s_email} Password : ${this.s_password}");
+
+
+        FirebaseAuth.instance
+            .authStateChanges()
+            .listen((User? user) {
+          if (user == null) {
+            print('User is currently signed out!');
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AdminDataSubmit()),
+            );
+
+            print('User is signed in!');
+            Fluttertoast.showToast(
+                msg: "User is signed in!",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0
+            );
+
+
+
+          }
+        });
+
+
       }
  }
 
@@ -61,14 +92,15 @@ class _SignUpState extends State<SignUp> {
                       ,
                       child: Column(
                               children: [
-                                 SizedBox(height: 100,)
+                                 SizedBox(height: 200,)
                                 ,
 
                                    TextFormField(
 
                                      controller: name,
                                      decoration: InputDecoration(
-                                       label: Text("Name")
+                                       label: Text("Name"),
+                                         border: OutlineInputBorder()
                                      ),
                                      validator: (value)
                                      {
@@ -82,10 +114,12 @@ class _SignUpState extends State<SignUp> {
                                           this.s_name = value;
                                      },
                                    ),
+                                SizedBox(height: 20,),
                                 TextFormField(
                                   controller: email,
                                   decoration: InputDecoration(
-                                      label: Text("Email")
+                                      label: Text("Email"),
+                                    border: OutlineInputBorder()
                                   ),
                                   validator: (value)
                                   {
@@ -98,11 +132,15 @@ class _SignUpState extends State<SignUp> {
                                   {
                                         this.s_email = value;
                                   },
+
+
                                 ),
+                                SizedBox(height: 20,),
                                 TextFormField(
                                   controller: password,
                                   decoration: InputDecoration(
-                                      label: Text("Password")
+                                      label: Text("Password"),
+                                      border: OutlineInputBorder()
                                   ),
                                   validator: (value)
                                   {
