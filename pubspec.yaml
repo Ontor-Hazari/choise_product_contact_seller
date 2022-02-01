@@ -38,6 +38,7 @@ dependencies:
   firebase_auth: ^3.3.4
   # add this line to your dependencies
   fluttertoast: ^8.0.8
+  firebase_database: ^9.0.5
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,7 @@ flutter:
       - assets/images/main.png
       - assets/images/top1.png
       - assets/images/top2.png
+      - assets/images/insert.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
