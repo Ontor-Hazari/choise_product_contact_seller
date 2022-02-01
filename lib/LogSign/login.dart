@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:choise_product_contact_seller/BackgroudMainPage/background.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:choise_product_contact_seller/Admin/adminDatasubmit.dart';
+import 'package:choise_product_contact_seller/LogSign/signup.dart';
 
 class Login extends StatelessWidget {
 
@@ -20,6 +22,8 @@ class Login extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
+                margin: EdgeInsets.only(top: 100)
+                ,
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 child: Text(
@@ -27,12 +31,16 @@ class Login extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF2661FA),
-                      fontSize: 36
+                      fontSize: 36,
+
+
                   ),
+
                   textAlign: TextAlign.left,
+
                 ),
               ),
-              SizedBox(height: 50,),
+              SizedBox(height: 100,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 child: TextFormField(
@@ -69,16 +77,28 @@ class Login extends StatelessWidget {
               ),
               SizedBox(height: 20,),
 
-              Container(
-                alignment: Alignment.centerRight,
-                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                child: Text(
-                  "Forgot your password?",
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0XFF2661FA)
+              InkWell(
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                  child:Card(
+                    elevation: 1,
+                    child:  Text(
+                      "New Admin Registraion?",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0XFF2661FA)
+                      ),
+                    ),
                   ),
                 ),
+                onTap: ()
+                {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUp()),
+                  );
+                },
               ),
 
               SizedBox(height: size.height * 0.05),
@@ -103,6 +123,13 @@ class Login extends StatelessWidget {
                         textColor: Colors.white,
                         fontSize: 16.0
                     );
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AdminDataSubmit()),
+                    );
+
+
                   }
 
 
