@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:choise_product_contact_seller/LogSign/signup.dart';
+import 'package:choise_product_contact_seller/LogSign/login.dart';
+import 'DataSHow/datashow.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -29,18 +31,22 @@ class _HomePageState extends State<HomePage> {
 
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>  SignUp()),
+                MaterialPageRoute(builder: (context) =>  Login()),
               );
 
             },
-              child: Text("Admit"),
+              child: Text("Admin Panel"),
             )
             ,
 
             RaisedButton(onPressed: (){
-
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  DataShow()),
+              );
             },
               child: Text("Customers"),
+
             )
 
           ],

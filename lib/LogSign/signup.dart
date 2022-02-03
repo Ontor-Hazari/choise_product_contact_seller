@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../FireAuth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:choise_product_contact_seller/Admin/adminDatasubmit.dart';
-import 'FireAuth.dart';
+import 'package:choise_product_contact_seller/FireAuth.dart';
 
 
 
