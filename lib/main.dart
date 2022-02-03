@@ -24,7 +24,7 @@ void main() async {
   );
   runApp(new MaterialApp(
     title: 'MyApp',
-    home: Login(),
+    home: HomePage(),
   ));
 }
 
